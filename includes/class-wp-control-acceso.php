@@ -49,9 +49,24 @@ class WP_Control_Acceso {
 
     private function define_public_hooks() {
         $plugin_public = new WP_Control_Acceso_Public($this->get_plugin_name(), $this->get_version());
-
+        
+        // Registrar estilos y scripts
         $this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_styles');
         $this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_scripts');
+        
+        // Registrar shortcodes
+        add_shortcode('control_acceso_registro', array($plugin_public, 'mostrar_registro_form'));
+        add_shortcode('control_acceso_dashboard', array($plugin_public, 'mostrar_dashboard'));
+        add_shortcode('control_acceso_reportes', array($plugin_public, 'mostrar_reportes'));
+        
+        // Registrar endpoints AJAX
+        $this->loader->add_action('wp_ajax_wp_control_acceso_entrada', $plugin_public, 'registrar_entrada');
+        $this->loader->add_action('wp_ajax_wp_control_acceso_salida', $plugin_public, 'registrar_salida');
+        $this->loader->add_action('wp_ajax_wp_control_acceso_exportar', $plugin_public, 'exportar_registros');
+
+        // Registrar el hook para el cierre automático
+        $registros = new WP_Control_Acceso_Registros();
+        $this->loader->add_action('wp_control_acceso_cierre_automatico', $registros, 'cerrar_registros_automaticamente');
     }
 
     private function create_custom_tables() {

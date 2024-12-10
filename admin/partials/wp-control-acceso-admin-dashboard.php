@@ -92,6 +92,9 @@ $registros = $wpdb->get_results("
                             <?php 
                             if ($registro->hora_salida) {
                                 echo date('H:i:s', strtotime($registro->hora_salida));
+                                if ($registro->cierre_automatico) {
+                                    echo ' <span class="badge bg-warning" title="Cierre automático"><i class="fas fa-robot"></i></span>';
+                                }
                             } else {
                                 echo '<span class="badge bg-warning">En curso</span>';
                             }

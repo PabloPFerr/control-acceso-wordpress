@@ -246,4 +246,51 @@ class WP_Control_Acceso_Registros {
             $row++;
         }
     }
+
+    /**
+     * Cierra automáticamente los registros que no han sido cerrados
+     * @return int Número de registros cerrados
+     */
+    public function cerrar_registros_automaticamente() {
+        global $wpdb;
+        $tabla_registros = $wpdb->prefix . 'control_acceso_registros';
+        $hora_actual = current_time('mysql');
+        
+        // Obtener registros sin cerrar del día anterior
+        $registros_abiertos = $wpdb->get_results(
+            $wpdb->prepare(
+                "SELECT * FROM $tabla_registros 
+                WHERE hora_salida IS NULL 
+                AND DATE(hora_entrada) < DATE(%s)",
+                $hora_actual
+            )
+        );
+
+        $registros_cerrados = 0;
+        foreach ($registros_abiertos as $registro) {
+            // Establecer la hora de salida a las 23:59:59 del mismo día
+            $fecha_entrada = date('Y-m-d', strtotime($registro->hora_entrada));
+            $hora_salida = $fecha_entrada . ' 23:59:59';
+            
+            // Calcular la duración
+            $duracion = (strtotime($hora_salida) - strtotime($registro->hora_entrada)) / 3600;
+            
+            // Actualizar el registro
+            $wpdb->update(
+                $tabla_registros,
+                array(
+                    'hora_salida' => $hora_salida,
+                    'duracion' => $duracion,
+                    'cierre_automatico' => 1
+                ),
+                array('id' => $registro->id),
+                array('%s', '%f', '%d'),
+                array('%d')
+            );
+            
+            $registros_cerrados++;
+        }
+        
+        return $registros_cerrados;
+    }
 }

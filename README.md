@@ -108,6 +108,48 @@ Para añadir acceso rápido al registro de horario:
 3. Añade cualquiera de los shortcodes mencionados arriba
 4. Guarda los cambios
 
+## Cierre Automático de Registros
+
+El plugin incluye una funcionalidad de cierre automático de registros que se ejecuta diariamente a medianoche. Esta función:
+
+- Cierra automáticamente todos los registros que no tienen hora de salida registrada
+- Establece la hora de salida a las 23:59:59 del día del registro
+- Marca el registro como "cierre automático" para diferenciarlo de los cierres manuales
+
+### Configuración del Cron
+
+El cron se configura automáticamente al activar el plugin, pero para asegurar su correcto funcionamiento:
+
+1. Asegúrate de que el cron de WordPress está funcionando correctamente:
+   ```bash
+   wp cron event list
+   ```
+   Deberías ver el evento `wp_control_acceso_cierre_automatico` programado para la próxima medianoche.
+
+2. Si el cron no aparece o necesitas reprogramarlo:
+   ```bash
+   wp cron event unschedule wp_control_acceso_cierre_automatico
+   wp plugin deactivate wp-control-acceso
+   wp plugin activate wp-control-acceso
+   ```
+
+3. Para un funcionamiento óptimo, configura un cron real en tu servidor:
+   ```bash
+   # Ejecutar a las 00:01 todos los días
+   1 0 * * * cd /path/to/wordpress && wp cron event run --due-now >/dev/null 2>&1
+   ```
+   
+   Este comando:
+   - Se ejecuta al minuto 1 (1)
+   - De la hora 0 (medianoche) (0)
+   - Todos los días del mes (*)
+   - Todos los meses (*)
+   - Todos los días de la semana (*)
+
+### Visualización de Registros Automáticos
+
+Los registros cerrados automáticamente se identifican en todas las vistas con un ícono de robot (🤖) junto a la hora de salida.
+
 ## Versiones de WordPress Compatibles
 
 - Versión mínima requerida: WordPress 6.0
