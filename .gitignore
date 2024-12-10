@@ -1,0 +1,77 @@
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE and Editor folders
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+*.komodoproject
+.komodotools/
+.eclipse/
+.settings/
+.project
+.buildpath
+*.swp
+*.bak
+*.tmp
+*.temp
+
+# Node modules and package files (si se usan en el futuro)
+node_modules/
+package-lock.json
+yarn.lock
+
+# Composer (si se usa en el futuro)
+vendor/
+composer.lock
+
+# Archivos de log
+*.log
+error_log
+debug.log
+
+# Archivos de configuración local
+config.local.php
+wp-config.local.php
+.env
+
+# Archivos de caché
+*.cache
+.phpunit.result.cache
+
+# Archivos de respaldo
+*~
+*.bak
+*.backup
+*.old
+
+# Archivos de compilación
+*.min.js
+*.min.css
+*.map
+
+# Directorios de construcción/distribución
+dist/
+build/
+tmp/
+
+# Archivos de prueba y desarrollo
+phpunit.xml
+tests/coverage/
+.phpcs.cache
+
+# Otros
+.htaccess
+.ftpconfig
+.ftpignore
+.svn/
+*.zip
+*.tar
+*.gz
