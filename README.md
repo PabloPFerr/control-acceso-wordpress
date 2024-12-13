@@ -21,17 +21,20 @@ Este plugin proporciona un sistema de registro y control de horarios laborales p
 
 ## Instalación
 
-1. Descarga el archivo ZIP del plugin
-2. Ve al panel de administración de WordPress
-3. Navega a Plugins > Añadir nuevo
-4. Haz clic en "Subir Plugin" y selecciona el archivo ZIP descargado
-5. Activa el plugin una vez instalado
+### Instalación desde Git
 
-También puedes instalar el plugin manualmente:
+1. Clona este repositorio
+2. Renombra el directorio a `wp-control-acceso`
+3. Sube el directorio completo a la carpeta `/wp-content/plugins/` de tu instalación WordPress
+4. Activa el plugin desde el panel de administración de WordPress
 
-1. Descarga y descomprime el archivo del plugin
-2. Sube la carpeta `wp-control-acceso` al directorio `/wp-content/plugins/` de tu instalación WordPress
-3. Activa el plugin desde el menú 'Plugins' en WordPress
+### Instalación Manual desde ZIP
+
+1. Descarga el código como ZIP desde GitHub
+2. Descomprime el archivo
+3. Renombra el directorio descomprimido a `wp-control-acceso`
+4. Sube el directorio completo a la carpeta `/wp-content/plugins/` de tu instalación WordPress
+5. Activa el plugin desde el panel de administración de WordPress
 
 ## Estructura del Plugin
 
@@ -52,6 +55,41 @@ wp-control-acceso/
 1. Una vez activado, ve a "Control de Horarios" en el menú de WordPress
 2. Los empleados podrán registrar sus entradas y salidas desde el panel de usuario
 3. Los administradores pueden ver y exportar los registros desde el panel de administración
+
+## Roles y Permisos
+
+El plugin crea tres roles específicos:
+
+### Empleado
+- Puede registrar su entrada y salida
+- Puede ver sus propios registros de asistencia
+
+### Supervisor
+- Puede ver y exportar todos los reportes
+- Puede gestionar usuarios
+- Puede modificar configuraciones del sistema
+
+### Auditor
+- Puede ver y exportar reportes
+- No puede registrar asistencia
+- No puede gestionar usuarios ni configuraciones
+
+## Instrucciones de Uso
+
+### Para Empleados
+1. Inicia sesión en WordPress con tu cuenta de empleado
+2. Accede a la página de registro de asistencia
+3. Registra tu entrada/salida según corresponda
+
+### Para Supervisores
+1. Accede al panel de administración
+2. Gestiona usuarios y sus roles
+3. Configura las opciones del sistema
+4. Visualiza y exporta reportes
+
+### Para Auditores
+1. Accede al panel de administración
+2. Visualiza y exporta reportes de asistencia
 
 ## Instrucciones de Uso
 
@@ -82,11 +120,6 @@ El plugin proporciona tres shortcodes principales que puedes usar en cualquier p
    - "Mis Registros": Añade el shortcode `[control_acceso_mis_reportes]`
 
 2. Añade estas páginas al menú de tu sitio para fácil acceso
-
-### Roles y Permisos
-
-- **Empleados**: Pueden acceder al registro de entrada/salida y ver sus propios reportes
-- **Administradores**: Tienen acceso completo a todos los registros y funciones administrativas
 
 ### Uso Diario
 

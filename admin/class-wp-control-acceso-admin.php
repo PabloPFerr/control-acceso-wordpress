@@ -140,6 +140,28 @@ class WP_Control_Acceso_Admin {
     }
 
     /**
+     * Muestra la página de usuarios
+     */
+    public function display_plugin_users_page() {
+        if (current_user_can('control_acceso_manage_users')) {
+            include_once 'partials/wp-control-acceso-admin-users.php';
+        } else {
+            echo '<div class="wrap"><div class="alert alert-warning">No tienes permiso para ver esta página.</div></div>';
+        }
+    }
+
+    /**
+     * Muestra la página de configuración
+     */
+    public function display_plugin_admin_settings() {
+        if (current_user_can('control_acceso_manage_all')) {
+            include_once 'partials/wp-control-acceso-admin-settings.php';
+        } else {
+            echo '<div class="wrap"><div class="alert alert-warning">No tienes permiso para ver esta página.</div></div>';
+        }
+    }
+
+    /**
      * Agrega el campo de rol en el perfil de usuario
      */
     public function add_control_acceso_role_field($user) {
