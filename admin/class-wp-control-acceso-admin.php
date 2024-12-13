@@ -38,6 +38,11 @@ class WP_Control_Acceso_Admin {
             'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js',
             array('jquery'), '5.3.0', true);
 
+        // Chart.js
+        wp_enqueue_script('chartjs',
+            'https://cdn.jsdelivr.net/npm/chart.js',
+            array(), '4.4.1', true);
+
         // Localizar script para AJAX
         wp_localize_script($this->plugin_name, 'wpControlAcceso', array(
             'ajax_url' => admin_url('admin-ajax.php'),

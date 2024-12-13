@@ -1,5 +1,17 @@
 <?php
 $user = wp_get_current_user();
+
+// Obtener el registro activo directamente
+global $wpdb;
+$table_name = $wpdb->prefix . 'control_acceso_registros';
+$registro_activo = $wpdb->get_row($wpdb->prepare("
+    SELECT * FROM {$table_name}
+    WHERE user_id = %d 
+    AND hora_salida IS NULL
+    AND DATE(hora_entrada) = CURDATE()
+    ORDER BY hora_entrada DESC
+    LIMIT 1
+", $user->ID));
 ?>
 
 <div class="wp-control-acceso-registro">

@@ -54,8 +54,8 @@ class WP_Control_Acceso {
         $this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_scripts');
         
         // Registrar endpoints AJAX
-        $this->loader->add_action('wp_ajax_wp_control_acceso_entrada', $plugin_public, 'registrar_entrada');
-        $this->loader->add_action('wp_ajax_wp_control_acceso_salida', $plugin_public, 'registrar_salida');
+        $this->loader->add_action('wp_ajax_wp_control_acceso_entrada', $plugin_public, 'handle_registro_entrada');
+        $this->loader->add_action('wp_ajax_wp_control_acceso_salida', $plugin_public, 'handle_registro_salida');
         $this->loader->add_action('wp_ajax_wp_control_acceso_exportar', $plugin_public, 'exportar_registros');
 
         // Registrar el hook para el cierre automático
@@ -99,19 +99,14 @@ class WP_Control_Acceso {
         }
 
         $user = wp_get_current_user();
-
-        // Los administradores siempre tienen acceso completo
+        
+        // Si es administrador, tiene todos los permisos
         if (in_array('administrator', $user->roles)) {
             return true;
         }
 
-        // Los auditores solo pueden ver y exportar reportes
-        if (in_array('control_acceso_auditor', $user->roles)) {
-            return in_array($capability, ['control_acceso_view_reports', 'control_acceso_export_reports']);
-        }
-
-        // Para usuarios normales
-        return current_user_can($capability);
+        // Verificar si el usuario tiene la capacidad específica
+        return $user->has_cap($capability);
     }
 
     /**
@@ -142,9 +137,14 @@ class WP_Control_Acceso {
      * Renderiza el shortcode de reportes personales
      */
     public function render_mis_reportes_shortcode() {
-        if (!self::current_user_can('control_acceso_view_reports')) {
+        if (!is_user_logged_in()) {
+            return '<div class="alert alert-warning">Debes iniciar sesión para ver tus reportes.</div>';
+        }
+
+        if (!self::current_user_can('control_acceso_view_own_reports')) {
             return '<div class="alert alert-warning">No tienes permiso para ver reportes.</div>';
         }
+
         ob_start();
         include plugin_dir_path(dirname(__FILE__)) . 'public/partials/mis-reportes.php';
         return ob_get_clean();

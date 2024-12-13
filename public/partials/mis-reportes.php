@@ -3,6 +3,21 @@ if (!is_user_logged_in()) {
     return '<div class="alert alert-warning">Debes iniciar sesión para ver tus reportes.</div>';
 }
 
+// Verificar si el usuario es empleado o administrador
+$user = wp_get_current_user();
+
+// Debug: Mostrar información del usuario
+$roles_info = print_r($user->roles, true);
+$caps_info = print_r($user->allcaps, true);
+
+if (!in_array('empleado', (array) $user->roles) && 
+    !in_array('Empleado', (array) $user->roles) && 
+    !in_array('administrator', (array) $user->roles)) {
+    return '<div class="alert alert-warning">No tienes permiso para ver reportes.<br>
+            Roles: ' . $roles_info . '<br>
+            Capacidades: ' . $caps_info . '</div>';
+}
+
 $user_id = get_current_user_id();
 $registros = new WP_Control_Acceso_Registros();
 

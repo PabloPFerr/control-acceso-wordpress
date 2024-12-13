@@ -44,54 +44,35 @@ class WP_Control_Acceso_Activator {
      * Configura los roles y capacidades
      */
     private static function setup_roles_and_capabilities() {
-        // Crear rol de empleado si no existe
-        if (!get_role('empleado')) {
-            add_role(
-                'empleado',
-                'Empleado',
-                array(
-                    'read' => true,
-                    'control_acceso_register_attendance' => true, // Puede registrar asistencia
-                    'control_acceso_view_own_reports' => true    // Puede ver sus propios reportes
-                )
-            );
-        }
+        // Remover el rol existente si existe
+        remove_role('empleado');
+        
+        // Crear el rol de empleado con las capacidades básicas de WordPress
+        add_role(
+            'empleado',
+            'Empleado',
+            array(
+                'read' => true,
+                'control_acceso_register_attendance' => true,
+                'control_acceso_view_own_reports' => true,
+                'control_acceso_view_reports' => false, // Solo para administradores
+            )
+        );
 
-        // Crear rol de supervisor si no existe
-        if (!get_role('supervisor_acceso')) {
-            add_role(
-                'supervisor_acceso',
-                'Supervisor de Control de Acceso',
-                array(
-                    'read' => true,
-                    'control_acceso_view_reports' => true,      // Puede ver todos los reportes
-                    'control_acceso_export_reports' => true,    // Puede exportar reportes
-                    'control_acceso_manage_users' => true       // Puede gestionar empleados
-                )
-            );
-        }
-
-        // Crear rol de auditor si no existe
-        if (!get_role('auditor_acceso')) {
-            add_role(
-                'auditor_acceso',
-                'Auditor de Control de Acceso',
-                array(
-                    'read' => true,
-                    'control_acceso_view_reports' => true,      // Solo puede ver reportes
-                    'control_acceso_export_reports' => true     // Y exportarlos
-                )
-            );
-        }
-
-        // Asegurar que el rol de administrador tenga todas las capacidades
+        // Asignar capacidades al rol de administrador
         $admin = get_role('administrator');
         if ($admin) {
-            $admin->add_cap('control_acceso_manage_all');           // Gestión completa
-            $admin->add_cap('control_acceso_view_reports');         // Ver reportes
-            $admin->add_cap('control_acceso_export_reports');       // Exportar reportes
-            $admin->add_cap('control_acceso_register_attendance');  // Registrar asistencia
-            $admin->add_cap('control_acceso_manage_users');         // Gestionar usuarios
+            $admin->add_cap('control_acceso_register_attendance');
+            $admin->add_cap('control_acceso_view_own_reports');
+            $admin->add_cap('control_acceso_view_reports');
+        }
+
+        // Debug: Verificar que el rol se creó correctamente
+        $empleado = get_role('empleado');
+        if ($empleado) {
+            error_log('Rol de empleado creado/actualizado con capacidades: ' . print_r($empleado->capabilities, true));
+        } else {
+            error_log('Error: No se pudo crear el rol de empleado');
         }
     }
 
