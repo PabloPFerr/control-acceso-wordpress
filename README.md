@@ -195,10 +195,6 @@ Para reportar problemas o solicitar soporte, por favor:
 1. Revisa la documentación incluida
 2. Contacta con el soporte técnico
 
-## Licencia
-
-Este plugin está licenciado bajo la GPLv2 o posterior.
-
 ## Changelog
 
 ### 1.0.0
