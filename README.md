@@ -1,6 +1,6 @@
 # Plugin de Control de Horarios para WordPress
 
-Este plugin proporciona un sistema de registro y control de horarios laborales para WordPress, permitiendo a los empleados registrar sus entradas y salidas diarias. Es una herramienta ideal para pequeñas y medianas empresas que necesitan llevar un control del tiempo trabajado por sus empleados.
+Este plugin proporciona un sistema de registro y control de horarios laborales para WordPress, permitiendo a los empleados registrar sus entradas y salidas diarias. Es una herramienta ideal para pequeñas empresas que necesitan llevar un control del tiempo trabajado por sus empleados.
 
 ## Características
 
